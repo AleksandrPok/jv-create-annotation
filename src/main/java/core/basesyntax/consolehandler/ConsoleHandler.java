@@ -25,6 +25,9 @@ public class ConsoleHandler {
         System.out.println("Write your bet and risk\nWrite 'q' to exit");
         while (true) {
             String command = scanner.nextLine();
+            if (command.equalsIgnoreCase("q")) {
+                return;
+            }
             Bet bet = null;
             try {
                 String[] betData = command.split(SPLITTER);
@@ -38,9 +41,6 @@ public class ConsoleHandler {
             if (bet != null) {
                 betDao.add(bet);
                 System.out.println("Your " + bet);
-            }
-            if (command.equalsIgnoreCase("q")); {
-                return;
             }
         }
     }
