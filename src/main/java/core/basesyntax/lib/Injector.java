@@ -2,6 +2,7 @@ package core.basesyntax.lib;
 
 import core.basesyntax.dao.BetDao;
 import core.basesyntax.dao.UserDao;
+import core.basesyntax.exception.DaoException;
 import core.basesyntax.factory.Factory;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -25,10 +26,10 @@ public class Injector {
                     dao = Factory.getUserDao();
                 }
                 if (dao.getClass().getAnnotation(Dao.class) == null) {
-                    throw new RuntimeException("@Dao annotation not found");
-                } else {
-                    field.set(instance, dao);
+                    throw new DaoException("@Dao annotation not found in "
+                            + field.getName() + " class");
                 }
+                field.set(instance, dao);
             }
         }
         return instance;
