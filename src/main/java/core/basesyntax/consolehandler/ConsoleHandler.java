@@ -1,9 +1,8 @@
 package core.basesyntax.consolehandler;
 
 import core.basesyntax.dao.BetDao;
-import core.basesyntax.dao.BetDaoImpl;
 import core.basesyntax.dao.UserDao;
-import core.basesyntax.dao.UserDaoImpl;
+import core.basesyntax.lib.Inject;
 import core.basesyntax.model.Bet;
 import core.basesyntax.model.User;
 import java.util.Scanner;
@@ -12,8 +11,10 @@ public class ConsoleHandler {
     private static final String SPLITTER = " ";
     private static final int BET_VALUE_INDEX = 0;
     private static final int BET_RISK_INDEX = 1;
-    private final BetDao betDao = new BetDaoImpl();
-    private final UserDao userDao = new UserDaoImpl();
+    @Inject
+    private BetDao betDao;
+    @Inject
+    private UserDao userDao;
 
     public void handle() {
         Scanner scanner = new Scanner(System.in);
@@ -22,13 +23,13 @@ public class ConsoleHandler {
     }
 
     private void addBet(Scanner scanner) {
-        System.out.println("Write your bet and risk\nWrite 'q' to exit");
+        System.out.println("Write your bet and risk or write 'q' to exit");
         while (true) {
             String command = scanner.nextLine();
             if (command.equalsIgnoreCase("q")) {
                 return;
             }
-            Bet bet = null;
+            Bet bet;
             try {
                 String[] betData = command.split(SPLITTER);
                 int value = Integer.parseInt(betData[BET_VALUE_INDEX]);
@@ -46,7 +47,7 @@ public class ConsoleHandler {
     }
 
     private void addUser(Scanner scanner) {
-        System.out.println("Write your name\nWrite 'q' to exit");
+        System.out.println("Write your name or write 'q' to exit");
         while (true) {
             String name = scanner.nextLine();
             if (name.equalsIgnoreCase("q")) {
